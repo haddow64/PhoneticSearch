@@ -4,6 +4,7 @@ PhoneticSearch
 Modified version of the soundex algorithm (http://en.wikipedia.org/wiki/Soundex)
 
 Algorithm is as follows:
+
 1.  All non-alphabetic characters are ignored
 
 2.  Word case is not significant
