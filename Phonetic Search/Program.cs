@@ -36,7 +36,7 @@ namespace Phonetic_Search
             string[] splitUpNames = {};
 
             // List that loads contains the contents of the supplied .txt file
-            IEnumerable<String> lines = new List<String>();
+            IEnumerable<string> lines = new List<string>();
 
             // List containing the output names
             var userOutput = new List<string>();
@@ -54,17 +54,16 @@ namespace Phonetic_Search
             }
             else
             {
-                Console.WriteLine(
-                    "Please enter any surnames separated by a space \nand the the name of your file separated by a < symbol");
+                Console.WriteLine("Please enter any surnames separated by a space \nand the the name of your file separated by a < symbol");
                 Console.WriteLine("E.G. Name1 Name2 < surnames.txt \n");
 
-                string inputData = Console.ReadLine();
+                var inputData = Console.ReadLine();
 
                 // Strip file name from input names
-                string fileName = inputData;
+                var fileName = inputData;
                 if (inputData != null)
                 {
-                    int nameIndex = inputData.LastIndexOf(" <", StringComparison.Ordinal);
+                    var nameIndex = inputData.LastIndexOf(" <", StringComparison.Ordinal);
                     if (nameIndex > 0)
                         inputData = inputData.Substring(0, nameIndex);
                 }
@@ -72,12 +71,12 @@ namespace Phonetic_Search
                 // Isolate the name of the input file
                 if (fileName != null)
                 {
-                    int fileIndex = fileName.LastIndexOf("<", StringComparison.Ordinal);
+                    var fileIndex = fileName.LastIndexOf("<", StringComparison.Ordinal);
                     if (fileIndex > 0)
                         fileName = fileName.Remove(0, fileIndex).Replace("<", "").Replace(" ", "");
                 }
 
-                if (inputData != null) splitUpNames = inputData.Split(new[] {' '});
+                if (inputData != null) splitUpNames = inputData.Split(' ');
 
                 // List containing the contents of the text file
                 if (fileName != null) lines = File.ReadLines(fileName);
@@ -91,24 +90,20 @@ namespace Phonetic_Search
              * Main loop for the application 
              * First loop iterates over user input with the nested loop iterating over the list of names
              */
-            foreach (string names in splitUpNames)
+            foreach (var names in splitUpNames)
             {
                 userOutput.Clear();
 
                 try
                 {
-                    userOutput.AddRange(from item in lines
-                        let userInputSoundex = Soundex(names)
-                        let fileInputSoundex = Soundex(item)
-                        where userInputSoundex == fileInputSoundex
-                        let storedName = names
-                        where storedName == names
-                        select item);
+                    userOutput.AddRange(from item in lines let userInputSoundex = Soundex(names) let fileInputSoundex = Soundex(item)
+                        where userInputSoundex == fileInputSoundex let storedName = names where storedName == names select item);
+
                     Console.WriteLine(names + ": " + string.Join(", ", userOutput.ToArray()));
                 }
-                catch
+                catch (Exception e)
                 {
-                    Console.WriteLine("Unable to read file, did you spell it correctly?");
+                    Console.WriteLine("Unable to read file, did you spell it correctly?\n\nException was: " + e);
                 }
             }
             Console.ReadLine();
@@ -125,22 +120,22 @@ namespace Phonetic_Search
         private static string Soundex(string inputNames)
         {
             var result = new StringBuilder();
-            string previousNumber = "";
+            var previousNumber = "";
 
-            string removeSpaces = inputNames.Replace(" ", "");
+            var removeSpaces = inputNames.Replace(" ", "");
 
             // 1.  All non-alphabetic characters are ignored
             // 2.  Word case is not significant
             // Rule one implemented using regular expressions
             // Rule two implemented from RegexOptions.IgnoreCase
             // Slower than the C# implementation of IsLetterOrDigit but more commonly used because its easier to understand and maintain
-            string onlyAlphabetic = Regex.Replace(removeSpaces, "[^a-z]", "", RegexOptions.IgnoreCase);
+            var onlyAlphabetic = Regex.Replace(removeSpaces, "[^a-z]", "", RegexOptions.IgnoreCase);
 
             // 3.  After the first letter, any of the following letters are discarded: A, E, I, H, O, U, W, Y.
             // Rule three stores the first letter in getFirstLetter
             // Then uses regular expressions to remove the defined letters and rejoins the first letter
-            string getFirstLetter = onlyAlphabetic.Substring(0, 1);
-            string removeLetters = Regex.Replace(onlyAlphabetic.Remove(0, 1), "[aeihouwy]", "", RegexOptions.IgnoreCase);
+            var getFirstLetter = onlyAlphabetic.Substring(0, 1);
+            var removeLetters = Regex.Replace(onlyAlphabetic.Remove(0, 1), "[aeihouwy]", "", RegexOptions.IgnoreCase);
             inputNames = getFirstLetter + removeLetters;
 
             // 4.  The following sets of letters are considered equivalent
@@ -152,9 +147,9 @@ namespace Phonetic_Search
             // All others have no equivalent
             if (inputNames.Length > 0)
             {
-                for (int i = 1; i < inputNames.Length; i++)
+                for (var i = 1; i < inputNames.Length; i++)
                 {
-                    string evaluateLetter = inputNames.Substring(i, 1).ToLower();
+                    var evaluateLetter = inputNames.Substring(i, 1).ToLower();
 
                     string currentNumber;
                     if ("aeiou".IndexOf(evaluateLetter, StringComparison.Ordinal) > -1)
@@ -183,7 +178,7 @@ namespace Phonetic_Search
             }
 
             if (result.Length < 4)
-                result.Append(new String('0', 4 - result.Length));
+                result.Append(new string('0', 4 - result.Length));
 
             return result.ToString().ToUpper();
         }
