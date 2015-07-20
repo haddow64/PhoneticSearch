@@ -22,3 +22,6 @@ C:\Users\Bob-Haddow\Documents\GitHub\PhoneticSearch\Phonetic Search\obj\Debug\Ph
 C:\Users\Bob-Haddow\Documents\GitHub\PhoneticSearch\Phonetic Search\bin\Debug\Phonetic Search.exe
 C:\Users\Bob-Haddow\Documents\GitHub\PhoneticSearch\Phonetic Search\bin\Debug\Phonetic Search.pdb
 C:\Users\Bob-Haddow\Documents\GitHub\PhoneticSearch\Phonetic Search\obj\Debug\Phonetic Search.csprojResolveAssemblyReference.cache
+D:\Users\Graeme\My Documents\GitHub\PhoneticSearch\Phonetic Search\bin\Debug\Phonetic Search.exe.config
+D:\Users\Graeme\My Documents\GitHub\PhoneticSearch\Phonetic Search\obj\Debug\Phonetic Search.exe
+D:\Users\Graeme\My Documents\GitHub\PhoneticSearch\Phonetic Search\obj\Debug\Phonetic Search.pdb
